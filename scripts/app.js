@@ -39,11 +39,17 @@ const updateUI = (data) => {
 
 
   // Time of day updating
-  if (weatherDetails.IsDayTime) {
-    time.setAttribute('src', 'img/day.svg');
-  } else {
-    time.setAttribute('src', 'img/night.svg');
-  }
+
+  weatherDetails.IsDayTime
+  ? time.setAttribute('src', 'img/day.svg')
+  : time.setAttribute('src', 'img/night.svg');
+
+  // if (weatherDetails.IsDayTime) {
+  //   time.setAttribute('src', 'img/day.svg');
+  // } else {
+  //   time.setAttribute('src', 'img/night.svg');
+  // }
+
 
 
   // Change card visibility after fetching data
