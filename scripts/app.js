@@ -1,6 +1,9 @@
+
 const locationInput = document.querySelector('.change-location');
 const details = document.querySelector('.details');
 const card = document.querySelector('.card');
+const time = document.querySelector('img.time');
+const icon = document.querySelector('div.icon');
 
 // Update information about city given from form
 const updateCity = async (city) => {
@@ -13,18 +16,44 @@ const updateCity = async (city) => {
 
 };
 
+// Update User Interface with fetched weather details
 const updateUI = (data) => {
 
+  console.log(data);
+
+
+  // Destructuring
+  const { cityDetails, weatherDetails } = data;
+
+
+  // Weather details updating
   let html = `
-  <h5 class="my-3">${data.cityDetails.LocalizedName}</h5>
-  <div class="my-3">${data.weatherDetails.WeatherText}</div>
+  <h5 class="my-3">${cityDetails.LocalizedName}</h5>
+  <div class="my-3">${weatherDetails.WeatherText}</div>
   <div class="display-4 my-4">
-    <span>${data.weatherDetails.Temperature.Metric.Value}</span>
+    <span>${weatherDetails.Temperature.Metric.Value}</span>
     <span>&deg;C</span>
   </div>
   `
   details.innerHTML = html;
-  card.classList.remove('d-none');
+
+
+  // Time of day updating
+  if (weatherDetails.IsDayTime) {
+    time.setAttribute('src', 'img/day.svg');
+  } else {
+    time.setAttribute('src', 'img/night.svg');
+  }
+
+
+  // Change card visibility after fetching data
+  if( card.classList.contains('d-none') ) {
+    card.classList.remove('d-none');
+  }
+
+
+  // Change weather type icon
+  icon.innerHTML = `<img src="img/icons/${weatherDetails.WeatherIcon}.svg">`
 
 }
 
@@ -39,6 +68,7 @@ locationInput.addEventListener('submit', e => {
     .catch(err => console.log(err))
   ;
 
+  // Reset input value
   locationInput.reset();
 
 });
