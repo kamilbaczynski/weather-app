@@ -21,7 +21,6 @@ const updateUI = (data) => {
 
   console.log(data);
 
-
   // Destructuring
   const { cityDetails, weatherDetails } = data;
 
@@ -51,7 +50,6 @@ const updateUI = (data) => {
   // }
 
 
-
   // Change card visibility after fetching data
   if( card.classList.contains('d-none') ) {
     card.classList.remove('d-none');
@@ -69,6 +67,9 @@ locationInput.addEventListener('submit', e => {
 
   let city = locationInput.city.value.trim();
 
+  // Saving last search to local storage
+  localStorage.setItem('city', city);
+
   updateCity(city)
     .then(data => updateUI(data))
     .catch(err => console.log(err))
@@ -78,4 +79,12 @@ locationInput.addEventListener('submit', e => {
   locationInput.reset();
 
 });
+
+// Local storage check to update app with last search value
+
+if (localStorage.getItem('city')) {
+  updateCity(localStorage.getItem('city'))
+  .then(data => updateUI(data))
+  .catch(err => console.log(err));
+};
 
